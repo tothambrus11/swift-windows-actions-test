@@ -20,12 +20,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2025, windows-2025-arm]
+        os: [windows-2025, windows-11-arm]
         channel: [release, dev-snapshot]
         include:
           - os: windows-2025
             build_arch: amd64
-          - os: windows-2025-arm
+          - os: windows-11-arm
             build_arch: arm64
           - channel: release
             swift-version: swift-6.3.1-release

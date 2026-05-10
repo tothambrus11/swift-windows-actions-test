@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2025, windows-2025-arm]
+        os: [windows-2025, windows-11-arm]
         channel: [release, dev-snapshot]
         include:
           - channel: release
