@@ -1,0 +1,48 @@
+name: compnerd/gha-setup-swift
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# compnerd/gha-setup-swift takes two inputs:
+#   swift-version : a "branch-style" identifier (e.g. swift-6.3.1-release, swift-development)
+#   swift-build   : the actual build tag minus the "swift-" prefix
+#                   (e.g. 6.3.1-RELEASE, DEVELOPMENT-SNAPSHOT-2026-04-30-a)
+#
+# The dev snapshot tag is a moving target; update DEV_SNAPSHOT_TAG below to a
+# current snapshot from https://www.swift.org/install/windows/ if it goes stale.
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / ${{ matrix.channel }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2025, windows-2025-arm]
+        channel: [release, dev-snapshot]
+        include:
+          - channel: release
+            swift-version: swift-6.3.1-release
+            swift-build: 6.3.1-RELEASE
+          - channel: dev-snapshot
+            swift-version: swift-development
+            swift-build: DEVELOPMENT-SNAPSHOT-2026-04-30-a
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Swift via compnerd/gha-setup-swift
+        uses: compnerd/gha-setup-swift@main
+        with:
+          swift-version: ${{ matrix.swift-version }}
+          swift-build: ${{ matrix.swift-build }}
+
+      - name: swift --version
+        run: swift --version
+
+      - name: swift build
+        run: swift build -c release
+
+      - name: swift run
+        run: swift run -c release Hello
