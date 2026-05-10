@@ -19,9 +19,11 @@ Each job:
 
 Actions tested:
 
-- [`swift-actions/setup-swift`](https://github.com/swift-actions/setup-swift) (Swiftly-based)
 - [`SwiftyLab/setup-swift`](https://github.com/SwiftyLab/setup-swift)
 - [`compnerd/gha-setup-swift`](https://github.com/compnerd/gha-setup-swift) (Windows-specific)
+
+`swift-actions/setup-swift` was removed because it does not support Windows
+runners (it is Swiftly-based, and Swiftly has no Windows support yet).
 
 Pinned versions:
 
