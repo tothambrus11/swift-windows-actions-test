@@ -23,11 +23,18 @@ jobs:
         os: [windows-2025, windows-2025-arm]
         channel: [release, dev-snapshot]
         include:
+          - os: windows-2025
+            build_arch: amd64
+          - os: windows-2025-arm
+            build_arch: arm64
           - channel: release
             swift-version: swift-6.3.1-release
             swift-build: 6.3.1-RELEASE
+          # NOTE: The README says swift-version should be "swift-development" for
+          # dev snapshots, but the action interpolates swift-version directly into
+          # the swift.org URL path, where the actual segment is "development".
           - channel: dev-snapshot
-            swift-version: swift-development
+            swift-version: development
             swift-build: DEVELOPMENT-SNAPSHOT-2026-04-30-a
     steps:
       - uses: actions/checkout@v4
@@ -37,6 +44,7 @@ jobs:
         with:
           swift-version: ${{ matrix.swift-version }}
           swift-build: ${{ matrix.swift-build }}
+          build_arch: ${{ matrix.build_arch }}
 
       - name: swift --version
         run: swift --version
